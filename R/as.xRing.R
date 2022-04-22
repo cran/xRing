@@ -1,4 +1,4 @@
-as.xRing = function(x) {
+as.xRing <- function(x) {
   # x <- x[c(
   #   "profile.raw",
   #   "profile.smooth",
@@ -16,5 +16,5 @@ as.xRing = function(x) {
   # )]
   x <- x[!is.na(names(x))]
   class(x) <- c("xRing", "list")
-  return(x)
+  x
 }

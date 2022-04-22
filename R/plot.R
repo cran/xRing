@@ -1,5 +1,5 @@
 # helpers
-years2xLim <- function(x, years){
+years2xLim <- function(x, years) {
   years <- pmin(pmax(years, min(x$years) + 1), max(x$years))
   YEARmin <- which(x$years == min(years - 1))
   YEARmax <- which(x$years == max(years))
@@ -20,43 +20,45 @@ years2xLim <- function(x, years){
 #' \link{plotRings}
 #' @export
 #' @examples
-#' 
-#'  data(PaPiRaw)
-#'  data(PaPiSpan)
 #'
-#'  PaPi <- detectRings(PaPiRaw, PaPiSpan)
-#'  class(PaPi)
+#' data(PaPiRaw)
+#' data(PaPiSpan)
 #'
-#'  PaPiRings <- detectEwLw(PaPi, ew = 0.5)
-#'  plot(PaPiRings, series = "AFO1001a")
+#' PaPi <- detectRings(PaPiRaw, PaPiSpan)
+#' class(PaPi)
 #'
-#'  PaPiRings1 <- detectEwLw(PaPi, ew = 0.35, lw = 0.55)
-#'  plot(PaPiRings1, series = "AFO1001a")
+#' PaPiRings <- detectEwLw(PaPi, ew = 0.5)
+#' plot(PaPiRings, series = "AFO1001a")
 #'
-#'  plot(PaPiRings, series = "AFO1001a", years = c(1990,2000))
-#'  plot(PaPiRings$AFO1001a)
-#'  
+#' PaPiRings1 <- detectEwLw(PaPi, ew = 0.35, lw = 0.55)
+#' plot(PaPiRings1, series = "AFO1001a")
 #'
+#' plot(PaPiRings, series = "AFO1001a", years = c(1990, 2000))
+#' plot(PaPiRings$AFO1001a)
 #'
-
-
 #' @name plot
 #' @aliases plot.xRing
 #' @export
-#' @usage \method{plot}{xRing}(x, years = NULL, EwLw = TRUE,  xlim = NULL, ylim =NULL, ...)
+#' @usage \method{plot}{xRing}(x, years = NULL, EwLw = TRUE,  xlim = NULL, ylim = NULL, ...)
 
 plot.xRing <- function(x,
-                      years = NULL,
-                      EwLw = TRUE,
-                      xlim = NULL,
-                      ylim = NULL,
-                      ...
-) {
+                       years = NULL,
+                       EwLw = TRUE,
+                       xlim = NULL,
+                       ylim = NULL,
+                       ...) {
   mar <- par("mar")
   on.exit(par("mar" = mar))
-  if (!is.null(years))
+  if (!is.null(years)) {
     xlim <- years2xLim(x, years)
-  local(plotRings(x,  EwLw = EwLw, xlim = xlim, ylim = ylim, ...))
+  }
+  local(plotRings(
+    x,
+    EwLw = EwLw,
+    xlim = xlim,
+    ylim = ylim,
+    ...
+  ))
 }
 
 
@@ -69,27 +71,33 @@ plot.xRing <- function(x,
 
 
 plot.xRingList <- function(x,
-                          series = 1,
-                          years = NULL,
-                          EwLw = TRUE,
-                          xlim = NULL,
-                          ylim = NULL,
-                          ...) {
-
-    if (series %in% as.character(1:length(x))) {
-      series <- names(x)[as.integer(series)]
-    }
-    seriesID <- which(names(x) == series)
-    if (length(seriesID) == 0)
-      return(message(
-        paste("Please correct the series name or ID (ID <", length(x), ")")
-      ))
-    x <- x[[seriesID]]
-
-  if (!is.null(years))
+                           series = 1,
+                           years = NULL,
+                           EwLw = TRUE,
+                           xlim = NULL,
+                           ylim = NULL,
+                           ...) {
+  if (series %in% as.character(1:length(x))) {
+    series <- names(x)[as.integer(series)]
+  }
+  seriesID <- which(names(x) == series)
+  if (length(seriesID) == 0) {
+    return(message(
+      paste("Please correct the series name or ID (ID <", length(x), ")")
+    ))
+  }
+  x <- x[[seriesID]]
+  
+  if (!is.null(years)) {
     xlim <- years2xLim(x, years)
+  }
   mar <- par("mar")
   on.exit(par("mar" = mar))
-  local(plotRings(x, EwLw = EwLw, xlim = xlim, ylim = ylim, ...))
-
+  local(plotRings(
+    x,
+    EwLw = EwLw,
+    xlim = xlim,
+    ylim = ylim,
+    ...
+  ))
 }

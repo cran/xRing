@@ -1,16 +1,16 @@
 #' @name stepIncrease
 #' @title Calculate the Steps Thickness of the Calibration Wedge
 #' @description convenience function to calculate the thickness of each steps of the calibration wedge for wedges with continous step increase.
-#' 
+#'
 #' @param step.increase height increase per wedge step
 #' @param nsteps total number of steps (the first step has the thickness of 0 - the area beside the wedge. Mention that when setting nsteps)
 #'
 #' @return a numeric vector
 #' @export
 #'
-stepIncrease <- function(step.increase =  0.24, nsteps = 7) {
+stepIncrease <- function(step.increase = 0.24, nsteps = 7) {
   step.increase * (seq_len(nsteps) - 1)
-  }
+}
 
 
 #' @title Fit a Calibration Curve
@@ -26,45 +26,50 @@ stepIncrease <- function(step.increase =  0.24, nsteps = 7) {
 #' \link{getSteps}
 #' @export
 #' @examples
-#' if(interactive()){
-#' # read a sample file
-#'  im <- imRead(file = system.file("img", "AFO1046.1200dpi.png", package="xRing"))
+#' if (interactive()) {
+#'   # read a sample file
+#'   im <- imRead(file = system.file("img", "AFO1046.1200dpi.png", package = "xRing"))
 #'
-#' # display the image
+#'   # display the image
 #'   imDisplay(im)
-#'   
-#' # get the grayvalues from the calibration wedge on the film
+#'
+#'   # get the grayvalues from the calibration wedge on the film
 #'   grayvalues <- getSteps(im, 7)
 #'
-#' # calibrate the film by fitting a model:
+#'   # calibrate the film by fitting a model:
 #'   calibration <- fitCalibrationModel(grayvalues,
-#'                                     thickness = stepIncrease(0.24, 7),
-#'                                     density = 1.2922,
-#'                                     plot = TRUE)
+#'     thickness = stepIncrease(0.24, 7),
+#'     density = 1.2922,
+#'     plot = TRUE
+#'   )
 #' }
 #'
 fitCalibrationModel <- function(grayvalues,
-                          thickness = stepIncrease(0.24, 7),
-                          density = 1.2922,
-                          plot = TRUE,
-                          ...) {
+                                thickness = stepIncrease(0.24, 7),
+                                density = 1.2922,
+                                plot = TRUE,
+                                ...) {
   # input validation
-  if(!(is.numeric(grayvalues) && is.numeric(thickness) && (length(grayvalues) == length(thickness)))) {stop('`grayvalues` and `thickness` need to be provided as numeric vectors of the same length')}
-  if(!((length(density)) == 1 && is.numeric(density))) {stop("`density` must be provided as a numeric vector of length 1")}  
+  if (!(is.numeric(grayvalues) && is.numeric(thickness) && (length(grayvalues) == length(thickness)))) {
+    stop("`grayvalues` and `thickness` need to be provided as numeric vectors of the same length")
+  }
+  if (!((length(density)) == 1 && is.numeric(density))) {
+    stop("`density` must be provided as a numeric vector of length 1")
+  }
 
   # main function
   optical_density <- density * thickness
   cal_film <- loess(optical_density ~ grayvalues, ...)
 
-  if(plot){
+  if (plot) {
     rng_grayvalues <- range(grayvalues)
     xrange <- seq(rng_grayvalues[[1]], rng_grayvalues[[2]], length.out = 1000)
     plot(optical_density ~ grayvalues)
-    lines(xrange, predict(cal_film, newdata = c(grayvalues = xrange)), col = 'red')
+    lines(xrange, predict(cal_film, newdata = c(grayvalues = xrange)), col = "red")
   }
-  return(cal_film)
+  cal_film
 }
-  
+
 #' @title Calibrate Film
 #' @description
 #' Convenience function to do the whole calibration of a densitometry image in one function call internally calling \link{getSteps} and \link{fitCalibrationModel}
@@ -81,36 +86,36 @@ fitCalibrationModel <- function(grayvalues,
 #' \link{getSteps}
 #' @export
 #' @examples
-#' if(interactive()){
-#' # read a sample file
-#'  im <- imRead(file = system.file("img", "AFO1046.1200dpi.png", package="xRing"))
+#' if (interactive()) {
+#'   # read a sample file
+#'   im <- imRead(file = system.file("img", "AFO1046.1200dpi.png", package = "xRing"))
 #'
-#' # display the image
+#'   # display the image
 #'   imDisplay(im)
-#'   
-#' # calibrate the film:
+#'
+#'   # calibrate the film:
 #'   calibration <- calibrateFilm(im,
-#'                                thickness = stepIncrease(0.24, 7),
-#'                                density = 1.2922,
-#'                                plot = TRUE)
+#'     thickness = stepIncrease(0.24, 7),
+#'     density = 1.2922,
+#'     plot = TRUE
+#'   )
 #' }
 #'
 calibrateFilm <- function(im,
                           thickness = stepIncrease(0.24, 7),
                           density = 1.2922,
                           plot = TRUE,
-                          auto = FALSE, 
+                          auto = FALSE,
                           nPixel = 50,
                           plotAuto = FALSE,
                           ...) {
-  
   nSteps <- length(thickness)
   grayvalues <- getSteps(im, nSteps, auto = auto, nPixel = nPixel)
-  fitCalibrationModel(grayvalues,
-                      thickness = thickness,
-                      density = density,
-                      plot = plot, 
-                      ...)
+  fitCalibrationModel(
+    grayvalues,
+    thickness = thickness,
+    density = density,
+    plot = plot,
+    ...
+  )
 }
-
-

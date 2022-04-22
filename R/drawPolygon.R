@@ -6,7 +6,7 @@ drawPolygon <- function(x, y, r = 20) {
     y1 <- y[2]
     delta_x <- x0 - x1
     delta_y <- y0 - y1
-    angle <- atan2(delta_y,  delta_x) * 180 / pi
+    angle <- atan2(delta_y, delta_x) * 180 / pi
     ang <- (angle + c(90, -90)) * pi / 180
     xx1 <- x1 + r * cos(ang)
     yy1 <- y1 + r * sin(ang)

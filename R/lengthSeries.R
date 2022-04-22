@@ -1,5 +1,5 @@
 
-lengthSeries = function (rwl) {
+lengthSeries <- function(rwl) {
   apply(
     rwl,
     2,

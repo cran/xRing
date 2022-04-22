@@ -1,1 +1,1 @@
-is.xRing <- function(x) isTRUE("xRing" %in% class(x))
+is.xRing <- function(x) inherits(x, "xRing") # isTRUE("xRing" %in% class(x))

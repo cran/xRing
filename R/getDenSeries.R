@@ -1,7 +1,7 @@
-getDenSeries =  function(x) {
-  #if (!is.xRing(x)) {
+getDenSeries <- function(x) {
+  # if (!is.xRing(x)) {
   #  stop("Use only with \"xRing\" objects.")
-  #}
+  # }
 
   out <- x
   nYears <- length(x$limits) - 1
@@ -32,5 +32,5 @@ getDenSeries =  function(x) {
     i0 <- (i1 + 1)
   }
   out$density <- OUT
-  return(out)
+  out
 }

@@ -7,23 +7,22 @@
 #' @return a "xRing" or "xRingList" object with a tree-ring border added at the position \code{x} for the series given by \code{series} argument
 #' @export
 #' @examples
-#' 
-#'  data(PaPiRaw)
-#'  data(PaPiSpan)
-#'  PaPi <- detectRings(PaPiRaw, PaPiSpan)
-#'  plot(PaPi$'AFO1001a')
-#'  PaPi$AFO1001a <- removeRing(PaPi$AFO1001a, 47)
-#'  plot(PaPi$'AFO1001a')
-#'  PaPi <- addRing(PaPi, series = 'AFO1001a', x = 47)
-#'  plot(PaPi$'AFO1001a')
-#' 
 #'
-
-addRing = function(object, x, series = NULL) {
-  if (!any(c(is.xRing(object), is.xRingList(object))))
+#' data(PaPiRaw)
+#' data(PaPiSpan)
+#' PaPi <- detectRings(PaPiRaw, PaPiSpan)
+#' plot(PaPi$"AFO1001a")
+#' PaPi$AFO1001a <- removeRing(PaPi$AFO1001a, 47)
+#' plot(PaPi$"AFO1001a")
+#' PaPi <- addRing(PaPi, series = "AFO1001a", x = 47)
+#' plot(PaPi$"AFO1001a")
+#'
+addRing <- function(object, x, series = NULL) {
+  if (!any(c(is.xRing(object), is.xRingList(object)))) {
     stop("Use only with \"xRingList\" and \"xRing\" objects.")
-  
-  if(is.xRingList(object) && is.null(series)) {
+  }
+
+  if (is.xRingList(object) && is.null(series)) {
     stop("please provide the argument \"series\" for objects of class \"xRingList\"")
   }
 

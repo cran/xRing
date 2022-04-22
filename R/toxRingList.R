@@ -10,12 +10,12 @@
 #' \link{toxRing}
 #' @export
 #' @examples
-#' 
-#'  data(PaPiRaw)
-#'  data(PaPiSpan)
-#'  PaPi <- toxRingList(PaPiRaw, PaPiSpan)
-#'  class(PaPi)
-#' 
+#'
+#' data(PaPiRaw)
+#' data(PaPiSpan)
+#' PaPi <- toxRingList(PaPiRaw, PaPiSpan)
+#' class(PaPi)
+#'
 toxRingList <- function(x, y = NULL) {
   n <- ncol(x)
   seriesName <- colnames(x)
@@ -25,5 +25,5 @@ toxRingList <- function(x, y = NULL) {
     out[[i]] <- toxRing(x, y, seriesName[i])
   }
   class(out) <- c("xRingList", "list")
-  return(out)
+  out
 }

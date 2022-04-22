@@ -17,7 +17,7 @@
 #' @return \code{profile} a \code{vector} with the the smoothed X-ray values (if is supplied in the input)
 #' @export
 #' @examples
-#' 
+#'
 #' data("PaPiRaw")
 #' data("PaPiSpan")
 #' AFO1001a <- toxRing(PaPiRaw, PaPiSpan, "AFO1001a")
@@ -26,13 +26,11 @@
 #' AFO1001a <- toxRing(PaPiRaw, seriesName = "AFO1001a")
 #' AFO1001a <- getBorders(AFO1001a)
 #'
-#' 
-
 getBorders <- function(x,
-                      k = 3,
-                      minTrw = 3,
-                      threshold = 0.215,
-                      addLastBorder = FALSE) {
+                       k = 3,
+                       minTrw = 3,
+                       threshold = 0.215,
+                       addLastBorder = FALSE) {
   extractedProfile <- x$profile
   lastYear <- x$span[[2]]
 
@@ -45,13 +43,16 @@ getBorders <- function(x,
   }
 
   lastBorder <- NULL
-  if (addLastBorder)
+  if (addLastBorder) {
     lastBorder <- length(extractedProfile)
+  }
 
   limits <-
     Limits <-
-    c(border(x = extractedProfile, k = k, threshold = threshold),
-      lastBorder)
+    c(
+      border(x = extractedProfile, k = k, threshold = threshold),
+      lastBorder
+    )
   limits0 <- NA
   problems <- which(dif(limits) < minTrw) - 1
   if (length(problems) > 0) {
@@ -65,8 +66,8 @@ getBorders <- function(x,
   x$limits <- limits
   x$years <- years
   x$limits0 <- limits0
-  if (is.na(x$span[1]))
+  if (is.na(x$span[1])) {
     x$span[1] <- years[1]
-  x <- as.xRing(x)
-  return(x)
+  }
+  as.xRing(x)
 }

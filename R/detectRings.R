@@ -19,28 +19,27 @@
 #' \link{getBorders}
 #' @export
 #' @examples
-#' 
-#'  data(PaPiRaw)
-#'  data(PaPiSpan)
-#'  PaPi <- toxRingList(PaPiRaw, PaPiSpan)
-#'  PaPi <- detectRings(PaPi)
-#'  # give the same
-#'  PaPi <- detectRings(PaPiRaw, PaPiSpan)
-#'  # Because the last year is not supplied the last year for all series is the last calendar year
-#'  # as.numeric(format(Sys.time(), "%Y"))-1
-#'  PaPi <- detectRings(PaPiRaw)
-#' 
-
+#'
+#' data(PaPiRaw)
+#' data(PaPiSpan)
+#' PaPi <- toxRingList(PaPiRaw, PaPiSpan)
+#' PaPi <- detectRings(PaPi)
+#' # give the same
+#' PaPi <- detectRings(PaPiRaw, PaPiSpan)
+#' # Because the last year is not supplied the last year for all series is the last calendar year
+#' # as.numeric(format(Sys.time(), "%Y"))-1
+#' PaPi <- detectRings(PaPiRaw)
+#'
 detectRings <- function(x,
-                       y = NULL,
-                       k = 3,
-                       minTrw = 3,
-                       threshold = 0.215) {
+                        y = NULL,
+                        k = 3,
+                        minTrw = 3,
+                        threshold = 0.215) {
 
   # if ("xRingList" %in% class(x)) {
   if (is.xRingList(x)) {
     out <- x
-  } else{
+  } else {
     out <- toxRingList(x, y)
   }
 

@@ -1,12 +1,14 @@
 
 border <- function(x, k = 3, threshold = 200) {
   x.dif <- rollMax(x,
-                   k = k,
-                   fill = NA,
-                   align = "right") + rollMax(-x,
-                                              k = k,
-                                              fill = NA,
-                                              align = "center")
+    k = k,
+    fill = NA,
+    align = "right"
+  ) + rollMax(-x,
+    k = k,
+    fill = NA,
+    align = "center"
+  )
   x0 <- which(x.dif > threshold)
   breaks <- unique(c(1, which(dif(x0) != 1), length(x0)))
   out <- NULL

@@ -12,24 +12,23 @@
 #' \link{toxRingList}
 #' @export
 #' @examples
-#' 
-#'  data(PaPiRaw)
-#'  data(PaPiSpan)
-#'  PaPi.AFO1001a <- toxRing(PaPiRaw, PaPiSpan, seriesName = "AFO1001a")
-#'  class(PaPi.AFO1001a)
-#' 
-toxRing <- function(x, y = NULL, seriesName ) {
+#'
+#' data(PaPiRaw)
+#' data(PaPiSpan)
+#' PaPi.AFO1001a <- toxRing(PaPiRaw, PaPiSpan, seriesName = "AFO1001a")
+#' class(PaPi.AFO1001a)
+#'
+toxRing <- function(x, y = NULL, seriesName) {
   if (is.null(y)) {
     span <- c(NA, NA)
-  } else{
-    span <- y[seriesName,]
+  } else {
+    span <- y[seriesName, ]
     span <- c(span[[1]], span[[2]])
   }
   out <- list(
     "profile.raw" = as.vector(na.omit(x[, seriesName])),
-    "span" =  span,
+    "span" = span,
     "name" = seriesName
   )
-  out <- as.xRing(out)
-  return(out)
+  as.xRing(out)
 }

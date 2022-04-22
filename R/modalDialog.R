@@ -1,20 +1,20 @@
 #' @import tcltk
 
-AsNumeric = function(x) {
+AsNumeric <- function(x) {
   suppressWarnings(as.numeric(x))
 }
 
-AsNumericNaN <- function(x){
+AsNumericNaN <- function(x) {
   x <- AsNumeric(x)
   if (is.na(x)) x <- ""
   x
 }
 
-modalDialog <-  function(title = " ",
-                         question = "",
-                         entryInit = "",
-                         entryWidth = 20,
-                         returnValOnCancel = "") {
+modalDialog <- function(title = " ",
+                        question = "",
+                        entryInit = "",
+                        entryWidth = 20,
+                        returnValOnCancel = "") {
   dlg <- tktoplevel(borderwidth = 0)
   tcl("wm", "attributes", dlg, topmost = TRUE)
   tkwm.iconify(dlg)
@@ -63,19 +63,22 @@ modalDialog <-  function(title = " ",
   }
 
   OK.but <- tkbutton(row2,
-                     text = "Ok",
-                     width = 6,
-                     command = onOK)
+    text = "Ok",
+    width = 6,
+    command = onOK
+  )
   Cancel.but <-
     tkbutton(row2,
-             text = "Cancel",
-             width = 6,
-             command = onCancel)
+      text = "Cancel",
+      width = 6,
+      command = onCancel
+    )
   tkpack(Cancel.but,
-         OK.but,
-         side = "left",
-         padx = 2,
-         pady = 4)
+    OK.but,
+    side = "left",
+    padx = 2,
+    pady = 4
+  )
   tkbind(dlg, "<Destroy>", function() {
     tkgrab.release(dlg)
   })
@@ -85,6 +88,5 @@ modalDialog <-  function(title = " ",
   tkfocus(dlg)
 
   tkwait.window(dlg)
-
-  return(ReturnVal)
+  ReturnVal
 }

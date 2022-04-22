@@ -7,22 +7,22 @@
 #' @return an "xRingList" object with limits.ew and limits.lw added.
 #' @export
 #' @examples
-#' 
-#'  data(PaPiRaw)
-#'  data(PaPiSpan)
-#'  PaPi <- detectRings(PaPiRaw, PaPiSpan)
-#'  PaPi.merge <- combineFrag(PaPi, frag = 9)
-#'  PaPiRings <- detectEwLw(PaPi.merge, ew = 0.5)
-#' 
-detectEwLw = function(x, ew = 0.5, lw = NULL) {
-
-  if (!is.xRingList(x))
+#'
+#' data(PaPiRaw)
+#' data(PaPiSpan)
+#' PaPi <- detectRings(PaPiRaw, PaPiSpan)
+#' PaPi.merge <- combineFrag(PaPi, frag = 9)
+#' PaPiRings <- detectEwLw(PaPi.merge, ew = 0.5)
+#'
+detectEwLw <- function(x, ew = 0.5, lw = NULL) {
+  if (!is.xRingList(x)) {
     stop("Use only with \"xRingList\" objects.")
+  }
 
-  if (is.null(lw))
+  if (is.null(lw)) {
     lw <- ew
+  }
 
   out <- lapply(x, EwLw2Series, ew, lw)
-  out <- as.xRingList(out)
-  return(out)
+  as.xRingList(out)
 }
